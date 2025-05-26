@@ -73,4 +73,27 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        val item = menu?.findItem(R.id.menu_login)
+        if(MyApplication.checkAuth() || MyApplication.email != null) {
+            item?.title = "로그아웃"
+        }else{
+            item?.title = "로그인"
+        }
+        return super.onPrepareOptionsMenu(menu)
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        invalidateMenu()
+        if(MyApplication.checkAuth() || MyApplication.email!! == null){
+            binding.toolbar.title = "${MyApplication.email} 님"
+        }
+        else{
+            binding.toolbar.title = "안녕하세요"
+        }
+
+    }
+
 }
